@@ -3,7 +3,8 @@ use std::cmp;
 fn main() {
     let input = include_str!("input");
 
-    let mut needed = 0;
+    let mut paper = 0;
+    let mut ribbon = 0;
     for line in input.split("\n") {
         let mut it = line.split("x");
         let l: u32 = it.next().unwrap().parse().unwrap();
@@ -13,11 +14,16 @@ fn main() {
         let a = l * w;
         let b = w * h;
         let c = h * l;
-
         let min = cmp::min(a, cmp::min(b, c));
+        paper += 2 * (a + b + c) + min;
 
-        needed += 2 * (a + b + c) + min;
+        let a = l + w;
+        let b = w + h;
+        let c = h + l;
+        let min = cmp::min(a, cmp::min(b, c));
+        ribbon += l * w * h + 2 * min;
     }
 
-    println!("{}", needed);
+    println!("{}", paper);
+    println!("{}", ribbon);
 }
