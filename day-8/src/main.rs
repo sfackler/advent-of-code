@@ -1,14 +1,17 @@
 fn main() {
     let input = include_bytes!("input");
 
-    let mut out = 0;
+    let mut decode = 0;
+    let mut encode = 0;
     for line in input.split(|&b| b == b'\n') {
-        out += diff(line);
+        decode += decode_diff(line);
+        encode += encode_diff(line);
     }
-    println!("{}", out);
+    println!("{}", decode);
+    println!("{}", encode);
 }
 
-fn diff(s: &[u8]) -> u32 {
+fn decode_diff(s: &[u8]) -> u32 {
     #[derive(Copy, Clone)]
     enum State {
         Normal,
@@ -36,4 +39,11 @@ fn diff(s: &[u8]) -> u32 {
     }
 
     diff
+}
+
+fn encode_diff(s: &[u8]) -> usize {
+    s.iter()
+     .cloned()
+     .filter(|&b| b == b'\\' || b == b'\"')
+     .count() + 2
 }
