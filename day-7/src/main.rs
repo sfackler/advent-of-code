@@ -11,6 +11,10 @@ fn main() {
     let input = include_str!("input");
     let raw = parser::parse_gates(input).unwrap();
     let graph = Graph::new(raw);
+    let a = graph.evaluate("a");
+    println!("{}", a);
+    graph.reset();
+    graph.ops[&"b"].value.set(Some(a));
     println!("{}", graph.evaluate("a"));
 }
 
@@ -59,6 +63,12 @@ impl<'a> Graph<'a> {
         match *source {
             Source::Wire(w) => self.evaluate(w),
             Source::Lit(l) => l,
+        }
+    }
+
+    fn reset(&self) {
+        for op in self.ops.values() {
+            op.value.set(None);
         }
     }
 }
