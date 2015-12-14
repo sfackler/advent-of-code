@@ -1,0 +1,11 @@
+[package]
+name = "day-7"
+version = "0.1.0"
+authors = ["Steven Fackler <sfackler@gmail.com>"]
+build = "build.rs"
+
+[build-dependencies]
+lalrpop = "0.8"
+
+[dependencies]
+lalrpop-util = "0.8"

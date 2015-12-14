@@ -1,0 +1,33 @@
+use ast::{Source, Gate, Op};
+
+grammar;
+
+pub gates: Vec<Gate<'input>> = {
+    Gate*
+};
+
+Gate: Gate<'input> = {
+    <Source> "RSHIFT" <ShiftWidth> "->" <Wire> => Gate::rshift(<>),
+    <Source> "OR" <Source> "->" <Wire> => Gate::or(<>),
+    <Source> "->" <Wire> => Gate::pass(<>),
+    "NOT" <Source> "->" <Wire> => Gate::not(<>),
+    <Source> "AND" <Source> "->" <Wire> => Gate::and(<>),
+    <Source> "LSHIFT" <ShiftWidth> "->" <Wire> => Gate::lshift(<>),
+};
+
+Source: Source<'input> = {
+    <Wire> => Source::Wire(<>),
+    <Signal> => Source::Lit(<>),
+};
+
+Wire: &'input str = {
+    r"[a-z]+"
+};
+
+Signal: u16 = {
+    r"[0-9]+" => <>.parse().unwrap()
+};
+
+ShiftWidth: u8 = {
+    r"[0-9]+" => <>.parse().unwrap()
+};
