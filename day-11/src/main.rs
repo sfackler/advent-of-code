@@ -2,8 +2,15 @@ use std::str;
 
 fn main() {
     let mut password = *b"hxbxwxba";
-    approx_next(&mut password);
 
+    approx_next(&mut password);
+    while !has_streak(password) || !has_pairs(password) {
+        approx_next(&mut password);
+    }
+
+    println!("{}", str::from_utf8(&password).unwrap());
+
+    approx_next(&mut password);
     while !has_streak(password) || !has_pairs(password) {
         approx_next(&mut password);
     }
