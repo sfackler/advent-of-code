@@ -17,6 +17,26 @@ fn main() {
 
     let max = reindeer.iter().map(|r| r.distance(2503)).max().unwrap();
     println!("{}", max);
+
+    let mut scores = vec![0; reindeer.len()];
+    for i in 1..2504 {
+        let mut winners = vec![];
+        let mut max = 0;
+        for (i, score) in reindeer.iter().map(|r| r.distance(i)).enumerate() {
+            if score > max {
+                winners.clear();
+                winners.push(i);
+                max = score;
+            } else if score == max {
+                winners.push(i);
+            }
+        }
+        for winner in winners {
+            scores[winner] += 1;
+        }
+    }
+
+    println!("{}", scores.iter().max().unwrap());
 }
 
 struct Reindeer {
