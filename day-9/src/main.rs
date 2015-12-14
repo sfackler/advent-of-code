@@ -28,12 +28,15 @@ fn main() {
     let mut cities = Heap::new(&mut cities);
 
     let mut min = u32::max_value();
+    let mut max = 0;
     while let Some(cities) = cities.next_permutation() {
         let mut distance = 0;
         for jump in cities.windows(2) {
             distance += distances[&(jump[0], jump[1])];
         }
+        max = cmp::max(max, distance);
         min = cmp::min(min, distance);
     }
     println!("{}", min);
+    println!("{}", max);
 }
